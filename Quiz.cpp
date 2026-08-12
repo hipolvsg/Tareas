@@ -12,8 +12,8 @@ menor = 17
 
 
 salida 
-edad mayor: 25
-edad menor: 14
-promedio: 16.125
+edad mayor: número al azar o valor basura
+edad menor: 14 
+promedio: numero al azar o valor basura
 
 */
