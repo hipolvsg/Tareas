@@ -64,6 +64,14 @@ int main() {
         }
     }
 
+    cout << "\n";
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 5; j++) {
+            cout << uso[i][j] << " ";
+        }
+        cout << "\n";
+    }
+
     return 0;
 }
 // Limpia el estado de error de cin y vacia el buffer
