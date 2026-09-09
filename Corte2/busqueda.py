@@ -1,42 +1,40 @@
 #Arreglo con busqueda binaria
-def busqueda_binaria(arr, x):
+def busqueda_binaria(arr, x, comparaciones = 0):
     low = 0
     high = len(arr) - 1
     mid = 0
-    global comparaciones_binaria
 
     while low <= high:
         mid = (high + low) // 2
-        comparaciones_binaria += 1
+        comparaciones += 1
         if arr[mid] < x:
             low = mid + 1
         elif arr[mid] > x:
             high = mid - 1
         else:
-            return mid
-    return -1
+            return mid, comparaciones
+    return -1, comparaciones
 #Arreglo con busqueda secuencial
-def busqueda_secuencial(arr, x):
-    global comparaciones_secuencial
+def busqueda_secuencial(arr, x, comparaciones = 0):
     for i in range(len(arr)):
-        comparaciones_secuencial += 1
+        comparaciones += 1
         if arr[i] == x:
-            return i
-    return -1
+            return i, comparaciones
+    return -1, comparaciones
 #main
 #incializacion de arreglo
 comparaciones_binaria = 0
 comparaciones_secuencial = 0
-arr = [2, 3, 4, 10, 40]
-x = 10
+arr = [2, 3, 4, 10, 40, 50, 60, 70, 80, 90]
+x = 50
 #llamada a la funcion de busqueda binaria
-result = busqueda_binaria(arr, x)
+result, comparaciones_binaria = busqueda_binaria(arr, x, comparaciones_binaria)
 if result != -1:
     print("Elemento encontrado en el indice:", str(result))
 else:
     print("Elemento no encontrado en el arreglo")
 #llamada a la funcion de busqueda secuencial
-result = busqueda_secuencial(arr, x)
+result, comparaciones_secuencial = busqueda_secuencial(arr, x, comparaciones_secuencial)
 if result != -1:
     print("Elemento encontrado en el indice:", str(result))
 else:
