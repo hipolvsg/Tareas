@@ -1,0 +1,65 @@
+
+#Ejercicio A
+complejidad     O(1)
+
+#ejercicio B
+complejidad O(n)
+
+#ejercicio C
+
+complejidad     O(n^2)
+#ejericio D
+
+complejidad     O(log n)
+
+#ejercicio E
+complejidad     O(5n)
+
+#ejercicio F
+
+bubble sort: complejidad (n^2)
+
+Se recorre la lista dos veces para tener i posicion actual y j los que compara
+
+por lo que cada vez que itera la cantidad n, lo hace sobre si misma, implicando una complejidad cuadrática.
+
+selection sort: complejidad (n^2)
+
+Se recorre la lista dos veces, una para seleccionar el elemento mínimo y otra para compararlo con este. 
+
+cada iteración (n veces) la realiza otras n veces, implicando una complejidad cuadrática.
+
+insertion sort: complejidad (n^2)
+
+Se recorre la lista una vez para tomar el elemento actual y otra vez para compararlo con los elementos en orden contario
+
+Cada que pone un elemento a comparación (n veces), lo compara con cada uno de los elementos anteriores, implicando una complejidad cuadrática.
+
+quick sort: complejidad (n log n)
+
+Se divide la lista en sublistas más pequeñas alrededor de un pivote y se ordenan recursivamente. 
+
+Cada vez se va dividiendo el problema, implicando una complejidad logarítmica gracias a la recursión.
+
+merge sort: complejidad (n log n)
+
+Se divide la lista en sublistas más pequeñas, hasta idealmente llegar a sublistas individuales, se ordenan recursivamente y luego se combinan.
+
+Cada vez se va dividiendo el problema, implicando una complejidad logarítmica gracias a la recursión, y a que se implementan sublistas de combinación (merge).
+
+bucket sort: complejidad (n + k)
+
+Se distribuyen los elementos en varios buckets por rangos para luego ordenarse individualmente.
+
+La complejidad depende de la distribución de los elementos y del número de cubos, siendo O(n + k) en el mejor de los casos, donde k es el número de cubos y n el número de elementos.
+
+En el peor de los casos, es si todos los elementos caen en un solo bucket ya que recorrería elemento por elemento y los ordenaria.
+sin hacerlo de la forma optima (buckets) la complejidad sería de O(n^2).
+
+heap sort: complejidad (n log n)
+
+Se construye un heap a partir de la lista y se extrae el elemento máximo repetidamente para ordenar la lista donde la raíz obtiene el número más grande y se ordenan jerarquicamente.
+
+La construcción del heap tiene complejidad O(n) ya que recorre cada elemento y cada extracción tiene complejidad O(log n), 
+ya que se emplean arboles binarios así sean iguales y escala desde las hojas hasta la raiz, 
+resultando en una complejidad total de O(n log n), ya que se realiza el proceso de extracción para cada elemento.
