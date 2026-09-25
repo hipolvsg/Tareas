@@ -79,6 +79,9 @@ tabla de complejidad derivada de algoritmo:
 Complejidad del algoritmo: O(totalRecursos * totalSedes) porque la operación más costosa es copiar los datos de disponibilidad antiguos a la nueva matriz, lo cual requiere iterar sobre todos los recursos y sedes despreciando los días de la semana
 los otros totalDias tambien se desprecian ya que se suman a la multiplicación y no afectan el crecimiento asintótico.
 
+toca considerar los tipos de escenarios: peor caso: se da cuando se debe redimensionar el arreglo de sedes y copiar todos los datos antiguos a la nueva matriz, lo cual implica iterar sobre todos los recursos y sedes. Complejidad: O(totalRecursos * totalSedes)
+mejor caso: se da cuando no es necesario redimensionar el arreglo de sedes, por lo que solo se verifica si la sede ya existe y se agrega la nueva sede al arreglo, lo cual tiene una complejidad menor. En este caso, Complejidad: O(3*totalSedes) = O(totalSedes)--
+
 
 Secuencia:
 
