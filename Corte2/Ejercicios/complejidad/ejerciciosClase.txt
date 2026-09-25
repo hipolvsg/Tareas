@@ -1,0 +1,6 @@
+ejercicio 1:
+O(n²)
+ejercicio 2:
+O(log n)
+ejercicio 3:
+O (n log n)

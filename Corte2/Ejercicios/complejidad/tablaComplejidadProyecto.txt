@@ -1,0 +1,112 @@
+CD y CI
+
+secuencia derivada de tabla de complejidad derivada de algoritmo
+
+algortimo
+void MatrizDisponibilidad::agregarSede(string nombreSede) {
+    //Verificar si la sede ya existe
+    for (int i = 0; i < totalSedes; i++) {
+        if (nombresSedes[i] == nombreSede) {
+            cout << "Error: La sede '" << nombreSede << "' ya existe." << endl;
+            return;
+        }
+
+    //complejidad item 1.
+
+    }
+    //Verificar si es necesario redimensionar el arreglo de sedes
+    //complejidad item 2.
+    if (totalSedes >= capacidadSedes) {
+        // Duplicar la capacidad de sedes
+        //complejidad item 3.
+        int nuevaCapacidadSedes = capacidadSedes * 2;
+        // Arerglo temporal para nombres de sedes y matriz de disponibilidad
+        string* nuevasSedes = new string[nuevaCapacidadSedes];
+        //complejidad item 4.
+        bool* nuevaMatriz = new bool[capacidadRecursos * nuevaCapacidadSedes * 7];
+        // Se inicializa nuevo vector
+        //complejidad item 5.
+        for (int i = 0; i < capacidadRecursos * nuevaCapacidadSedes * 7; i++) {
+            nuevaMatriz[i] = true;
+        }
+        // Copiar nombres de sedes antiguos a la nueva matriz de nombres
+        //complejidad item 6.
+        for (int s = 0; s < totalSedes; s++) {
+            nuevasSedes[s] = nombresSedes[s];
+        }
+        // Copiar datos de disponibilidad antiguos a la nueva matriz
+        //complejidad item 7.
+        for (int r = 0; r < totalRecursos; r++) {
+            for (int s = 0; s < totalSedes; s++) {
+                for (int d = 0; d < 7; d++) {
+                    int viejoIdx = (r * capacidadSedes * 7) + (s * 7) + d;
+                    int nuevoIdx = (r * nuevaCapacidadSedes * 7) + (s * 7) + d;
+                    // Copiar el valor de disponibilidad a la nueva matriz
+                    nuevaMatriz[nuevoIdx] = matrizDisp[viejoIdx];
+                }
+            }
+        }
+        //Liberar memoria antigua y actualizar punteros y capacidades
+        //complejidad item 8.
+        delete[] nombresSedes;
+        delete[] matrizDisp;
+
+        //Actualizar punteros y capacidades
+        nombresSedes = nuevasSedes;
+        matrizDisp = nuevaMatriz;
+        capacidadSedes = nuevaCapacidadSedes;
+    }
+    //Agregar la nueva sede al arreglo de nombres de sedes
+    //complejidad item 9.
+    nombresSedes[totalSedes] = nombreSede;
+    // Incrementar el contador de sedes
+    //complejidad item 10.
+    totalSedes++;
+    cout << "Sede '" << nombreSede << "' agregada exitosamente." << endl;
+}
+tabla de complejidad derivada de algoritmo:
+1. Verificar si la sede ya existe: O(n), donde n = totalSedes.
+2. Verificar si es necesario redimensionar el arreglo de sedes(se llenó): O(1).
+3. Si es necesario, duplicar la capacidad de sedes: O(1).
+4. Crear arreglos temporales para los nombres de sedes y la matriz de disponibilidad: O(1). (no hay n relevante aquí)
+5. Inicializar la nueva matriz de disponibilidad en true: O(1). (no hay n relevante)
+6. Copiar los nombres de sedes antiguos a la nueva matriz de nombres: O(totalSedes). n = totalSedes
+7. Copiar los datos de disponibilidad antiguos a la nueva matriz: O(totalRecursos * totalSedes * 7). n = totalSedes*totalRecursos.
+8. Liberar la memoria antigua y actualizar los punteros y capacidades: O(1).
+9. Agregar la nueva sede al arreglo de nombres de sedes: O(1).
+10. Incrementar el contador de sedes: O(1).
+
+Complejidad del algoritmo: O(totalRecursos * totalSedes) porque la operación más costosa es copiar los datos de disponibilidad antiguos a la nueva matriz, lo cual requiere iterar sobre todos los recursos y sedes despreciando los días de la semana
+los otros totalDias tambien se desprecian ya que se suman a la multiplicación y no afectan el crecimiento asintótico.
+
+
+Secuencia:
+
+    1. Verificar si la sede ya existe.
+    2. Verificar si es necesario redimensionar el arreglo de sedes.
+    3. Si es necesario, duplicar la capacidad de sedes.
+    4. Crear arreglos temporales para los nombres de sedes y la matriz de disponibilidad.
+    5. Inicializar la nueva matriz de disponibilidad en true.
+    6. Copiar los nombres de sedes antiguos a la nueva matriz de nombres.
+    7. Copiar los datos de disponibilidad antiguos a la nueva matriz.
+    8. Liberar la memoria antigua y actualizar los punteros y capacidades.
+    9. Agregar la nueva sede al arreglo de nombres de sedes.
+    10. Incrementar el contador de sedes.
+
+Preguntas:
+
+¿Qué es n (O(n))?
+n representa la cantidad de sedes actuales (totalSedes), ya que es el unico que afecta su crecimiento asintótico en el algoritmo.
+
+¿Cuántas veces se ejecuta el proceso si se duplica la entrada?
+respuesta: El proceso se ejecuta aproximadamente el doble de veces, la capacidad de sedes se duplica.
+por lo tanto el resto de sus interacciones con el algoritmo.
+
+
+¿Dentro de esa secuencia, se invoca otro proceso? ¿Cuántos procesos se invocan?
+respuesta: Se invoca un proceso adicional para copiar los datos antiguos a la nueva matriz (redimensionada), 
+y se ejecuta una vez por cada recurso, sede y día de la semana (complejidad: O(totalRecursos * totalSedes * 7(días(constante, por lo que es despreciable)))).
+
+¿Qué tipo de estructura de datos se está utilizando?
+respuesta: Se están utilizando arreglos dinámicos (punteros) para almacenar los nombres de sedes y 
+la matriz de disponibilidad.
