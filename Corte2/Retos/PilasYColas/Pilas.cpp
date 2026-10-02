@@ -65,31 +65,35 @@ auto operacion (string problema) -> tuple<string, char, string> {
     string numeros = "0123456789";
     string x = "";
     string y = "";
+    string operador = "+-/*";
     char operacion;
     for (char c : problema) {
         for (char d : numeros) {
             if (c == d){
-                x += c;
-            }
-            if (c == ' '){
-                continue;
+                x.push_back(c);
+            } else if (c == ' '){
+                break;
             }
         }
-    }
-    for (char c : problema) {
-        if (c == '+' || c == '-' || c == '*' || c == '/') {
-            operacion = c;
+        if (c == ' ' || c == '\t' || c == '\n' || c == '+' || c == '-' || c == '*' || c == '/') {
+            problema = problema.substr(problema.find(c) + 1);
             break;
         }
     }
     for (char c : problema) {
-        for (char d : numeros) {
-            if (c == d && x.find(c) == string::npos) {
-                y += c;
+        for (char d : operador){
+            if (c == d){
+                operacion = c;
             }
         }
     }
-
+    for (char c : problema) {
+        for (char d : numeros) {
+            if (c == d) {
+                y.push_back(c);
+            }
+        }
+    }   
     return make_tuple(x, operacion, y); 
 }
 void notacionPolacaInversa(tuple<string, char, string> problema) {
