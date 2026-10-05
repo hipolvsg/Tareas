@@ -1,0 +1,50 @@
+Parte A — La cola de atención ( Implementen la cola de espera de su sistema, sobre lista enlazada, con encolar, desencolar, consultar el frente y saber cuántos hay. 
+Encolar y desencolar deben costar O de uno los dos, y el tamaño también. 
+Prueben explícitamente el caso de vaciar la cola y volver a encolar. Ese caso vale puntos.
+Parte B — El deshacer Implementen una pila que registre las últimas operaciones del sistema y permita deshacer la última. 
+Debe deshacer de verdad, no solo borrar el registro: si la operación fue un préstamo, deshacerla devuelve el recurso a disponible.
+
+Parte A
+
+Los elementos de implementación de pilas y colas fueron tomados de los archivos del proyecto, 
+ya que mediante nodos se implementaron las listas enlazadas en este caso el tipo ideal sería pila.
+
+para poder recorrer el historial con facilidad y con O(1) de complejidad, 
+el nodo, tendrá como referencia head tail y tamaño (size) ya que con este solo tendríamos que actualizar 
+esas referencias para recorrer el historial, apilar o desapilar eficientemente.
+
+Para la implementación del caso, al final de terminar de vaciar la cola se tienen que actualizar
+tanto head como tail deben actualizarse a null y apuntando a -> nullptr
+al igual que el tamaño de ser = 0 para reflejar que la cola está vacía y evitar fugas de memoria.
+
+Parte B
+
+se implementara apilar o desapilar para realizar el deshacer para la última operación, según la información que se requiera
+para cada caso, restaurando el estado anterior del sistema completamente.
+
+Preguntas
+
+    En una cola sobre lista enlazada, saco el último elemento. ¿Qué dos referencias tengo que actualizar y por qué?
+
+    Tail debe actualizarse a null o -> nullptr, ya que al sacar el último elemento la cola queda vacía 
+    (se sacaron el resto también por la naturazleza de la cola) y no hay un último elemento.
+    al igual que head debe actualizarse a null o -> nullptr ya que todo está vacio, 
+    mismo caso que la implementación de la parte A.
+    además de tamaño = 0 para nuestro contexto de O(1) para todos los movimientos de la cola.
+
+    En una cola circular de capacidad cinco, el frente está en tres y hay cuatro elementos. ¿En qué posición se guarda el siguiente que encole?
+
+    Hay 4 elementos, y el frente está en la posición 3.
+    [0][1][2][3][4]
+    es decir que el primer elemento está en la posición 3, el segundo en la 4, el tercero en la 0 y el cuarto en la 1,
+    y el siguiente que encole se guardará en la posición 2.
+    3, 4, 0, 1, 2
+    Quiero deshacer las últimas tres operaciones. ¿Pila o cola? ¿Por qué?
+
+    Pila, ya que solo necesito acceder a esas últimas tres sin alterar el resto del resto de operaciones.
+    gracias a (LIFO).
+
+    Quiero atender por orden de llegada. ¿Pila o cola?
+
+    Cola, ya que necesito control sobre los que llegaron primero (FIFO).
+
