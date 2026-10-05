@@ -1,0 +1,57 @@
+[Julian -1][Mafe -2][Daniel -3][Edward -4]
+[Sergio -5][Ruiz -6][David -7][Nico -8]
+[Esteban -9][Santiago -10][Asier -11][Andres-12]
+
+
+Encontrar cualquier elemento sin preguntar ni recorrer
+etiquetarlos?
+
+int nameNum = 0;
+arr<int>[12] = {0};
+for string e: matrix{
+    for char c: e{
+        int num = 0
+        tolower(&c)
+        int num = c - 97
+        nameNum += num
+    }
+    nameNum = 0;
+}
+
+
+Resultado: 
+array<int>[12] = {61, 21, 39, 49, 67, 70, 35, 37, 59, 78, 47, 55};
+Julian = 61
+Mafe = 21
+Daniel = 39
+Edward = 49
+Checho = 36
+Chanty = 65
+David = 35
+Nico = 37
+Esteban = 59
+Santiago = 78
+Asier = 47
+Andres = 55
+
+PUSE A ESTEBAN ENTONCES SON 12
+
+Casilleros (arr[i]%12):
+Julian = 2
+Mafe = 10
+Daniel = 4
+Edward = 2
+Checho = 1
+Chanty = 6
+David = 0
+Nico = 2
+Esteban = 0
+Santiago = 7
+Asier = 0
+Andres = 8
+
+Si todos quedaron en el mismo casillero.
+Encontrar a Edward es posible?
+Depende
+Encontrar a Edward sería rapido?
+Depende
