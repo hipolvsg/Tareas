@@ -52,7 +52,13 @@ public:
                 nameKey += num;
             }
             nameKey = nameKey % 12;
-            index[e] = nameKey;
+            if (index.find(nameKey) != index.end()){
+                index[e] = nameKey;
+            }else {
+                index[e] = nameKey
+
+            }
+
             nameKey = 0;
         }
     }
