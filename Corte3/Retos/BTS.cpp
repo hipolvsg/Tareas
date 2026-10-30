@@ -3,7 +3,6 @@
 #include <string>
 #include <algorithm>
 using namespace std;
-
 struct Nodo {
     int clave;
     string nombre;
@@ -11,6 +10,7 @@ struct Nodo {
     Nodo* der = nullptr;
     Nodo(int c, string n = "") : clave(c), nombre(n) {}
 };
+
 
 Nodo* insertar(Nodo* n, int clave, string nombre = "") {
     if (!n) return new Nodo(clave, nombre);
@@ -75,10 +75,83 @@ void liberar(Nodo* n) {
     liberar(n->der);
     delete n;
 }
+/* Implemente listarOrdenado() e informe(codigo) 
+que imprima el nombre o un mensaje de no encontrado, indicando cuántas comparaciones hizo.*/ 
+
+//Reto 1
+
+void listarOrdenado(Nodo* n) {
+    vector<int> s;
+    //organiza y asigna
+    inorden(n, s);
+    //imprime
+    verLista("Listado ordenado:", s);
+}
+
+void informe(Nodo* n, int codigo) {
+    //vector para guardar un "camino" de comparaciones durante la búsqueda
+    vector<string> p;
+    //asginsa
+    Nodo* r = buscar(n, codigo, &p);
+    //Imprime flag de entrada a informe
+    cout << "informe( " << codigo << " ): ";
+    //si encuentra, da nombre
+    if (r) cout << "Nombre = " << r->nombre << endl;
+    //si no, indica no encontrado 
+    else cout << "\033[1;31mNO ENCONTRADO!!\033[0m" << endl;
+    cout << "se hicieron: (" << p.size() << ". comparaciones)" << endl;
+}
+
+//Reto 2
+//similar a bucket
+
+vector<int> Rango(Nodo* nodo, int start, int target) {
+    int visitados = 1; 
+    vector<int> s;
+    //caso base
+    if (!nodo) return s;
+    if (nodo->clave > start) {
+        vector<int> izq = Rango(nodo->izq, start, target);
+        visitados += izq.size(); //suma los nodos visitados en el sub izq, agregandolos recursivamente a s
+        //inserta al final los elementos del subarbol izq
+        s.insert(s.end(), izq.begin(), izq.end());
+    }
+    //si la clave del nodo está dentro del rango, la agrega a s
+    if (nodo->clave >= start && nodo->clave <= target) s.push_back(nodo->clave);
+    //si la clave del nodo es menor que target, revisa el subárbol derecho recursivamente
+    if (nodo->clave < target) {
+        vector<int> der = Rango(nodo->der, start, target);
+        visitados += der.size();
+        s.insert(s.end(), der.begin(), der.end());
+    }
+    return s;
+}
+
+//reto 3
+
+bool esBST(Nodo* nodo, int min, int max) {
+    if (!nodo) return true;
+    //Si la clave es el mismo nodo o no está en el rango, es inválido como BST
+    if (nodo->clave <= min || nodo->clave >= max) return false;
+    return esBST(nodo->izq, min, nodo->clave) && esBST(nodo->der, nodo->clave, max);
+}
+
 
 int main() {
     Nodo* raiz = nullptr;
-    for (int c : {50, 30, 70, 20, 40, 60, 80, 35}) raiz = insertar(raiz, c);
+    for (int c : {50, 30, 70, 20, 40, 60, 80, 35, 45, 55}) raiz = insertar(raiz, c);
+    cout << "proceso: listarOrdenado" << endl;
+    listarOrdenado(raiz);
+
+    cout << "proceso: informe" << endl;
+    informe(raiz, 40);
+
+    cout << "proceso: Rango" << endl;
+    vector<int> rango = Rango(raiz, 20, 60);
+    verLista("Rango [20,60]:", rango);
+
+    cout << "proceso: esBST" << endl;
+    cout << esBST(raiz, -2147483648, 2147483647) << endl;
 
     vector<int> s; inorden(raiz, s);
     verLista("Inorden (queda ordenado):", s);
