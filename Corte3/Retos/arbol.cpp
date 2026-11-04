@@ -10,6 +10,9 @@ struct Nodo {
     Nodo** hijos;
     int numHijos;
 };
+
+//RETOS SESION 35
+
 //RETO 1
 void imprimirJerarquia(Nodo* nodo, int nivel = 0) {
     //caso base: si el nodo es nulo, no hacer nada

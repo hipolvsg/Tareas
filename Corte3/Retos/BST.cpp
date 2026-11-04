@@ -8,6 +8,7 @@ struct Nodo {
     string nombre;
     Nodo* izq = nullptr;
     Nodo* der = nullptr;
+    int altura = 1;
     Nodo(int c, string n = "") : clave(c), nombre(n) {}
 };
 
@@ -78,6 +79,8 @@ void liberar(Nodo* n) {
 /* Implemente listarOrdenado() e informe(codigo) 
 que imprima el nombre o un mensaje de no encontrado, indicando cuántas comparaciones hizo.*/ 
 
+
+
 //Reto 1
 
 void listarOrdenado(Nodo* n) {
@@ -136,6 +139,137 @@ bool esBST(Nodo* nodo, int min, int max) {
     return esBST(nodo->izq, min, nodo->clave) && esBST(nodo->der, nodo->clave, max);
 }
 
+//RETOS SESION 37
+
+//Reto 1
+
+int alturaAVL(Nodo* n) {
+    return n ? n->altura : 0;
+}
+
+int feAVL(Nodo* n) {
+    return n ? alturaAVL(n->izq) - alturaAVL(n->der) : 0;
+}
+
+Nodo* rotarDerechaAVL(Nodo* y) {
+    if (!y || !y->izq) return y;
+    Nodo* x = y->izq;
+    Nodo* t2 = x->der;
+
+    x->der = y;
+    y->izq = t2;
+
+    y->altura = 1 + max(alturaAVL(y->izq), alturaAVL(y->der));
+    x->altura = 1 + max(alturaAVL(x->izq), alturaAVL(x->der));
+    return x;
+}
+
+Nodo* rotarIzquierdaAVL(Nodo* x) {
+    if (!x || !x->der) return x;
+    Nodo* y = x->der;
+    Nodo* t2 = y->izq;
+
+    y->izq = x;
+    x->der = t2;
+
+    x->altura = 1 + max(alturaAVL(x->izq), alturaAVL(x->der));
+    y->altura = 1 + max(alturaAVL(y->izq), alturaAVL(y->der));
+    return y;
+}
+
+Nodo* rotarIzquierdaDerechaAVL(Nodo* n) {
+    if (!n || !n->izq) return n;
+    n->izq = rotarIzquierdaAVL(n->izq);
+    return rotarDerechaAVL(n);
+}
+
+Nodo* rotarDerechaIzquierdaAVL(Nodo* n) {
+    if (!n || !n->der) return n;
+    n->der = rotarDerechaAVL(n->der);
+    return rotarIzquierdaAVL(n);
+}
+
+//Reto 2
+
+string diagnosticoAVL(Nodo* n) {
+    if (!n) return "equilibrado";
+    int feRaiz = feAVL(n);
+    if (abs(feRaiz) <= 1) return "equilibrado";
+
+    Nodo* hijoPesado = (feRaiz > 0) ? n->izq : n->der;
+    if (!hijoPesado) return "equilibrado";
+
+    int feHijo = feAVL(hijoPesado);
+
+    if (feRaiz > 0 && feHijo > 0) return "LL";
+    if (feRaiz > 0 && feHijo < 0) return "LR";
+    if (feRaiz < 0 && feHijo < 0) return "RR";
+    if (feRaiz < 0 && feHijo > 0) return "RL";
+    return "equilibrado";
+}
+
+Nodo* insertarAVL(Nodo* raiz, int clave, const string& nombre = "") {
+    if (!raiz) return new Nodo(clave, nombre);
+
+    if (clave < raiz->clave) raiz->izq = insertarAVL(raiz->izq, clave, nombre);
+    else if (clave > raiz->clave) raiz->der = insertarAVL(raiz->der, clave, nombre);
+    else return raiz;
+
+    raiz->altura = 1 + max(alturaAVL(raiz->izq), alturaAVL(raiz->der));
+    int fe = feAVL(raiz);
+
+    if (fe > 1 && clave < raiz->izq->clave) return rotarDerechaAVL(raiz);
+    if (fe < -1 && clave > raiz->der->clave) return rotarIzquierdaAVL(raiz);
+    if (fe > 1 && clave > raiz->izq->clave) return rotarIzquierdaDerechaAVL(raiz);
+    if (fe < -1 && clave < raiz->der->clave) return rotarDerechaIzquierdaAVL(raiz);
+
+    return raiz;
+}
+
+void imprimirAVL(Nodo* n, int nivel = 0) {
+    if (!n) return;
+    for (int i = 0; i < nivel; ++i) cout << "  ";
+    cout << n->clave << "(fe=" << feAVL(n) << ")\n";
+    imprimirAVL(n->izq, nivel + 1);
+    imprimirAVL(n->der, nivel + 1);
+}
+
+void demoRotacionesAVL() {
+    cout << "\n=== Reto 1 - Rotador manual ===\n";
+
+    auto probarCaso = [](int a, int b, int c) {
+        Nodo* raiz = nullptr;
+        for (int v : {a, b, c}) raiz = insertarAVL(raiz, v, "n");
+        cout << "Insercion: " << a << ", " << b << ", " << c
+             << " => caso " << diagnosticoAVL(raiz) << "\n";
+        imprimirAVL(raiz);
+        cout << "-------------------------\n";
+    };
+
+    probarCaso(30, 10, 20);  // LR
+    probarCaso(10, 20, 30);  // RR
+    probarCaso(10, 30, 20);  // RL
+}
+
+//Reto 3
+
+void demoOrdenesAVL() {
+    cout << "\n=== Reto 2 - Orden maldito ===\n";
+    vector<int> equilibrio = {4, 2, 6, 1, 3, 5, 7};
+    vector<int> peor = {1, 2, 3, 4, 5, 6, 7};
+
+    cout << "Orden equilibrado: [4, 2, 6, 1, 3, 5, 7]\n";
+    cout << "Peor orden:        [1, 2, 3, 4, 5, 6, 7]\n";
+    cout << "Todos los ordenes que dan altura 2 empiezan por 4, porque la raiz debe dividir la arboleda por la mitad.\n";
+    cout << "Luego cada mitad debe elegirse como raiz del subarbol correspondiente, y asi sucesivamente.\n";
+}
+
+void retoCorchadorAVL() {
+    cout << "\n=== Reto 3 - ¿Cuándo NO alcanza una rotación? ===\n";
+    cout << "En insercion, una sola rotacion suele bastar para reequilibrar el subarbol que se desbalanceo.\n";
+    cout << "En eliminacion, la altura puede disminuir y el problema se propaga hacia arriba,\n";
+    cout << "por lo que puede requerirse mas de una rotacion, incluso O(log n) en el peor caso.\n";
+}
 
 int main() {
     Nodo* raiz = nullptr;
@@ -179,6 +313,10 @@ int main() {
     for (int c : {10, 20, 30, 40, 50, 60, 70, 80}) deg = insertar(deg, c);
     cout << "\nBTS con datos ordenados: altura = " << altura(deg) << " con 8 nodos (una lista enlazada)" << endl;
     cout << "BTS con datos mezclados: altura = " << altura(raiz) << endl;
+
+    demoRotacionesAVL();
+    demoOrdenesAVL();
+    retoCorchadorAVL();
 
     liberar(raiz); liberar(deg);
     return 0;
